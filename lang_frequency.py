@@ -4,6 +4,9 @@ import argparse
 import chardet
 
 
+TOP_QUANTITY = 10
+
+
 def get_encoding(filepath):
     with open(filepath, 'rb') as a_file:
         return chardet.detect(a_file.read())['encoding']
@@ -35,5 +38,7 @@ if __name__ == '__main__':
     file_name = get_file_name()
     text = load_data(file_name)
     all_words = re.findall(r'\w+', text.lower())
-    most_frequent_words = collections.Counter(all_words).most_common(10)
+    most_frequent_words = (
+        collections.Counter(all_words).most_common(TOP_QUANTITY)
+        )
     print_frequency(most_frequent_words)
