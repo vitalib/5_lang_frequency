@@ -1,4 +1,5 @@
-import string
+import re
+import collections
 import argparse
 import chardet
 
@@ -14,29 +15,10 @@ def load_data(filepath):
         return a_file.read()
 
 
-def get_most_frequent_words(text):
-    frequences_dict = dict()
-    for word in text.split():
-        if word in frequences_dict:
-            frequences_dict[word] += 1
-        else:
-            frequences_dict[word] = 1
-    return sorted(frequences_dict.items(),
-                  key=lambda word_freq: word_freq[-1],
-                  reverse=True,
-                  )[:10]
-
-
 def get_file_name():
     parser = argparse.ArgumentParser()
     parser.add_argument('filename')
     return parser.parse_args().filename
-
-
-def delete_punctuation(text):
-    for sign in string.punctuation:
-        text = text.replace(sign, ' ')
-    return text
 
 
 def print_frequency(words_frequency):
@@ -52,7 +34,6 @@ def print_frequency(words_frequency):
 if __name__ == '__main__':
     file_name = get_file_name()
     text = load_data(file_name)
-    text = text.lower()
-    text = delete_punctuation(text)
-    words_frequency = get_most_frequent_words(text)
-    print_frequency(words_frequency)
+    all_words = re.findall(r'\w+', text.lower())
+    most_frequent_words = collections.Counter(all_words).most_common(10)
+    print_frequency(most_frequent_words)
