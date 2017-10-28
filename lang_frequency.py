@@ -5,8 +5,8 @@ import chardet
 
 
 def get_encoding(filepath):
-    with open(filepath, 'rb') as a_file:
-        return chardet.detect(a_file.read())['encoding']
+    with open(filepath, 'rb') as binary_file:
+        return chardet.detect(binary_file.read())['encoding']
 
 
 def load_data(filepath):
@@ -19,6 +19,11 @@ def get_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('filename')
     return parser.parse_args()
+
+
+def get_most_frequent_words(words_list, top_quantity=10):
+    return collections.Counter(words_list).most_common(top_quantity)
+    
 
 
 def print_frequency(words_frequency):
@@ -39,7 +44,5 @@ if __name__ == '__main__':
     file_name = args.filename
     text = load_data(file_name)
     all_words = re.findall(r'\w+', text.lower())
-    most_frequent_words = (
-        collections.Counter(all_words).most_common(n=10)
-        )
+    most_frequent_words = get_most_frequent_words(all_words)
     print_frequency(most_frequent_words)
