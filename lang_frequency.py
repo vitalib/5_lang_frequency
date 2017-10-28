@@ -23,7 +23,6 @@ def get_arguments():
 
 def get_most_frequent_words(words_list, top_quantity=10):
     return collections.Counter(words_list).most_common(top_quantity)
-    
 
 
 def print_frequency(words_frequency):
@@ -33,10 +32,11 @@ def print_frequency(words_frequency):
     max_field_width = len(longest_word)
     print('Most frequent words:')
     for word, freq in words_frequency:
-        print('{:{width}} {}'.format(word, 
+        print('{:{width}} {}'.format(word,
                                      freq,
-                                     width=max_field_width)
+                                     width=max_field_width
                                      )
+              )
 
 
 if __name__ == '__main__':
